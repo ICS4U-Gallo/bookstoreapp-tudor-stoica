@@ -1,5 +1,8 @@
 package models;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Book {
 
     public Integer id;
@@ -18,7 +21,28 @@ public class Book {
 
     static {
         books = new HashSet<>();
-        books.
+        books.add(new Book(1, 20, "C++", "ABC"));
+        books.add(new Book(2, 30, "Java", "XYZ"));
     }
 
+    public static Set<Book> allBooks(){
+        return books;
+    }
+
+    public static Book findById(Integer id){
+        for (Book book : books){
+            if (id.equals(book.id)){
+                return book;
+            }
+        }
+        return null;
+    }
+
+    public static void add(Book book){
+        books.add(book);
+    }
+
+    public static boolean remove(Book book){
+        return books.remove(book);
+    }
 }
