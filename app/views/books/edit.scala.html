@@ -1,0 +1,20 @@
+@import views.html.helper.CSRF
+@(bookFrom : Form[Book])
+@import helper._
+<html>
+    <head>
+        <title>Edit Book</title>
+    </head>
+
+    <body>
+        <h1>Edit Book</h1>
+        @helper.form(CSRF(routes.BooksController.save())){
+            @helper.inputText(bookFrom("id"))
+            @helper.inputText(bookFrom("title"))
+            @helper.inputText(bookFrom("price"))
+            @helper.inputText(bookFrom("author"))
+
+            <input type="submit" value="Edit Book">
+            }
+    </body>
+</html>
