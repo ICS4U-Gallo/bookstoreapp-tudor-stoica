@@ -23,12 +23,15 @@ public class BooksController extends Controller {
     //Creates a book
     public Result create(){
         Form<Book> bookForm = formFactory.form(Book.class);
-        return ok(create.render(bookFrom));
+        return ok(create.render(bookForm));
     }
 
     //Saves book
     public Result save(){
-        return TODO;
+        Form<Book> bookForm = formFactory.form(Book.class).bindFromRequest();
+        Book book = bookForm.get();
+        Book.add(book);
+        return redirect(routes.BooksController.index());
     }
 
     //Edits a book
