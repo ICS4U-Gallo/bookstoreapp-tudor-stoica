@@ -7,6 +7,8 @@ import play.mvc.Result;
 import views.html.books.create;
 import views.html.books.edit;
 import views.html.books.index;
+import views.html.books.show;
+
 import javax.inject.Inject;
 import java.util.Set;
 
@@ -32,6 +34,7 @@ public class BooksController extends Controller {
         Form<Book> bookForm = formFactory.form(Book.class).bindFromRequest();
         Book book = bookForm.get();
         Book.add(book);
+
         return redirect(routes.BooksController.index());
     }
 
@@ -39,23 +42,44 @@ public class BooksController extends Controller {
     public Result edit(Integer id){
         Book book = Book.findById(id);
         if (book == null){
-            return notFound("Book not found");
+            return notFound("Book Not Found");
         }
         Form<Book> bookForm = formFactory.form(Book.class).fill(book);
         return ok(edit.render(bookForm));
     }
 
     public Result update(){
-        return TODO;
+        Book book = formFactory.form(Book.class).bindFromRequest().get();
+        Book oldBook = Book.findById(book.id);
+
+        if (oldBook == null) {
+            return notFound("Book Not Found");
+        }
+
+        oldBook.title = book.title;
+        oldBook.author = book.author;
+        oldBook.price = book.price;
+
+        return redirect(routes.BooksController.index());
     }
 
     public Result destroy(Integer id){
-        return TODO;
+        Book book = Book.findById(id);
+        if(book == null) {
+            return notFound("Book Not Found");
+        }
+        Book.remove(book);
+        return redirect(routes.BooksController.index());
     }
 
     //Displays single book
     public Result show(Integer id){
-        return TODO;
+        Book book = Book.findById(id);
+        if (book == null) {
+            return notFound("Book Not Found");
+        }
+
+        return ok(show.render(book));
     }
 
 }
